@@ -1,0 +1,87 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap");
+body {
+  height: 100vh;
+  margin: 0;
+  font-family: "Montserrat";
+  font-size: 18px;
+  background: #eeeeee;
+}
+
+body .container {
+  margin: 1em;
+}
+
+body .container .provideCSV,
+body .container .columns,
+body .container .results {
+  display: -ms-grid;
+  display: grid;
+}
+
+body .container .provideCSV label,
+body .container .columns label,
+body .container .results label {
+  margin-bottom: 1em;
+  font-size: 1.5em;
+}
+
+body .container .provideCSV input[type="text"],
+body .container .columns input[type="text"],
+body .container .results input[type="text"] {
+  margin-bottom: 1em;
+  padding: 0.5em;
+}
+
+body .container .provideCSV button,
+body .container .columns button {
+  margin-bottom: 1em;
+  padding: 0.5em;
+  width: 100%;
+  -ms-grid-column-align: right;
+      justify-self: right;
+  font-size: 1em;
+  background: #fcb045;
+  color: white;
+  border: none;
+}
+
+body .container .columns .radioInput {
+  margin-bottom: 1em;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: auto 90%;
+      grid-template-columns: auto 90%;
+}
+
+body table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+body td,
+body th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 0.5em;
+}
+
+body tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+@media only screen and (min-width: 768px) {
+  .container {
+    font-size: 18px;
+    padding-left: 8em;
+    padding-right: 8em;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .container {
+    font-size: 22px;
+    padding-left: 12em;
+    padding-right: 12em;
+  }
+}
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap");
+
+body {
+  height: 100vh;
+  margin: 0;
+  font-family: "Montserrat";
+  font-size: 18px;
+  background: #eeeeee;
+
+  .container {
+    margin: 1em;
+
+    .provideCSV,
+    .columns,
+    .results {
+      display: grid;
+
+      label {
+        margin-bottom: 1em;
+        font-size: 1.5em;
+      }
+
+      input[type="text"] {
+        margin-bottom: 1em;
+        padding: 0.5em;
+      }
+    }
+
+    .provideCSV,
+    .columns {
+      button {
+        margin-bottom: 1em;
+        padding: 0.5em;
+        width: 100%;
+        justify-self: right;
+        font-size: 1em;
+        background: #fcb045;
+        color: white;
+        border: none;
+      }
+    }
+
+    .columns {
+      .radioInput {
+        margin-bottom: 1em;
+        display: grid;
+        grid-template-columns: auto 90%;
+      }
+    }
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 0.5em;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .container {
+    font-size: 18px;
+    padding-left: 8em;
+    padding-right: 8em;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .container {
+    font-size: 22px;
+    padding-left: 12em;
+    padding-right: 12em;
+  }
+}
