@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import CsvFilePath from './csvFilePath';
+import ShowColumnAndDist from "./showColumnsAndDist"
 
 class App extends Component {
 
@@ -11,7 +12,13 @@ class App extends Component {
       readCSV : false,
       csvFilePath: "",
       columns: [],
-      msg:""
+      selectedCol:"",
+      msg:"",
+      dists:['weibull_min','norm','weibull_max','beta',
+      'invgauss','uniform','gamma','expon', 'lognorm','pearson3','triang'],
+      selectedDists: [],      
+      colDistMsg: null
+
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -23,6 +30,18 @@ class App extends Component {
     const {name, value} = e.target
     this.setState({
       [name] : value
+    })
+  }
+
+  handleDists = (e) => {
+    const {name} = e.target
+    this.setState( prevState => {
+      if (prevState.selectedDists.includes([name])){
+        prevState.selectedDists.pop([name])
+        return {selectedDists : [...prevState.selectedDists]}
+      }else{
+        return {selectedDists : [...prevState.selectedDists, name]}
+      }
     })
   }
 
@@ -81,7 +100,18 @@ class App extends Component {
           handleChange={this.handleChange}
           msg={this.state.msg}
           />
-        {this.state.readCSV? <p>Show columns</p>: null}
+        {this.state.readCSV? 
+          <ShowColumnAndDist 
+          columns = {this.state.columns}
+          dists = {this.state.dists}
+          selectedCol = {this.state.selectedCol}
+          handleDists = {this.handleDists}
+          selectedDists = {this.state.selectedDists}
+          handleChange = {this.handleChange}
+          colDistMsg= {this.state.colDistMsg}
+          />
+          :
+          null}
       </div>
       
 

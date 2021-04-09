@@ -32,6 +32,13 @@ body .container .results input[type="text"] {
   padding: 0.5em;
 }
 
+body .container .provideCSV p,
+body .container .columns p,
+body .container .results p {
+  font-size: 15px;
+  color: red;
+}
+
 body .container .provideCSV button,
 body .container .columns button {
   margin-bottom: 1em;
