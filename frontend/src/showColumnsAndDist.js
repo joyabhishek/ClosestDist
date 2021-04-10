@@ -11,17 +11,17 @@ function ShowColumnAndDist(props){
     
     return (
         <div>
-            <div class="columns">
+            <div className="columns">
                 {props.colDistMsg? <p>{props.colDistMsg}</p> : null}
                 <label for="">Columns</label>             
-                <input type="text" name="" id=""/>
-                {columnsHtml}                           
+                <input type="text" name="searchCol" value={props.searchCol} onChange={(e) => {props.handleSearchTextBox("cols",e)}}/>
+                    {columnsHtml}                           
             </div>
-            <div class="columns">
-            <label for="">Distributions</label>
-            <input type="text" name="" id=""/>            
-                {distHtml} 
-            <button>Lets get results</button>
+            <div className="columns">
+                <label for="">Distributions</label>
+                <input type="text" name="searchDist" value={props.searchDist} onChange={(e) => {props.handleSearchTextBox("dist",e)}}/>
+                    {distHtml} 
+                <button>Lets get results</button>
             </div>
         </div>
     )

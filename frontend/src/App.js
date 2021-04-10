@@ -13,10 +13,15 @@ class App extends Component {
       csvFilePath: "",
       columns: [],
       selectedCol:"",
+      showedCols:[],
+      searchCol:"",
       msg:"",
       dists:['weibull_min','norm','weibull_max','beta',
+      'invgauss','uniform','gamma','expon', 'lognorm','pearson3','triang'],      
+      showedDists:['weibull_min','norm','weibull_max','beta',
       'invgauss','uniform','gamma','expon', 'lognorm','pearson3','triang'],
-      selectedDists: [],      
+      selectedDists: [],
+      searchDist:"",      
       colDistMsg: null
 
     }
@@ -33,11 +38,49 @@ class App extends Component {
     })
   }
 
+  handleSearchTextBox = (type,e) => {
+    var {name, value} = e.target
+    if (type === "dist"){
+      const reg = new RegExp(value, i)
+      let showedDists = []
+      if (value === ""){
+        showedDists = [...this.state.dists]
+      }else{
+         for (var i in this.state.dists){
+          if (this.state.dists[i].match(reg)){
+            showedDists.push(this.state.dists[i])
+          }          
+        }
+      }
+      this.setState({
+        showedDists: [...showedDists],
+        [name]: value
+      })
+    }else if (type === "cols"){
+      const reg = new RegExp(value, i)
+      let showedCols = []
+      if (value === ""){
+        showedCols = [...this.state.columns]
+      }else{
+         for (var i in this.state.columns){
+          if (this.state.columns[i].match(reg)){
+            showedCols.push(this.state.columns[i])
+          }          
+        }
+      }
+      this.setState({
+            showedCols: [...showedCols],
+            [name]: value
+          }
+        )
+    }
+  }
+
   handleDists = (e) => {
     const {name} = e.target
     this.setState( prevState => {
-      if (prevState.selectedDists.includes([name])){
-        prevState.selectedDists.pop([name])
+      if (prevState.selectedDists.includes(name)){
+        prevState.selectedDists.pop(name)
         return {selectedDists : [...prevState.selectedDists]}
       }else{
         return {selectedDists : [...prevState.selectedDists, name]}
@@ -72,6 +115,7 @@ class App extends Component {
         this.setState({
           msg: output.msg,
           columns: output.columns,
+          showedCols: output.columns,
           readCSV : true
         })        
 
@@ -87,7 +131,6 @@ class App extends Component {
     })
     .catch(e => console.log(e))
     }
-
   }
 
   render(){
@@ -102,13 +145,16 @@ class App extends Component {
           />
         {this.state.readCSV? 
           <ShowColumnAndDist 
-          columns = {this.state.columns}
-          dists = {this.state.dists}
+          columns = {this.state.showedCols}
+          dists = {this.state.showedDists}
           selectedCol = {this.state.selectedCol}
           handleDists = {this.handleDists}
           selectedDists = {this.state.selectedDists}
           handleChange = {this.handleChange}
           colDistMsg= {this.state.colDistMsg}
+          searchCol={this.state.searchCol}
+          searchDist={this.state.searchDist}
+          handleSearchTextBox={this.handleSearchTextBox}
           />
           :
           null}
