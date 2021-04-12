@@ -1,6 +1,7 @@
 import React from 'react';
 
 function ShowColumnAndDist(props){
+    console.log(typeof props.dists)
     let distHtml = props.dists.map(dist => {
         return ( <div className="radioInput"><input type="checkbox" name={dist} checked={props.selectedDists.includes(dist)} onChange={props.handleDists} />{dist}</div> )
     })
@@ -21,7 +22,7 @@ function ShowColumnAndDist(props){
                 <label for="">Distributions</label>
                 <input type="text" name="searchDist" value={props.searchDist} onChange={(e) => {props.handleSearchTextBox("dist",e)}}/>
                     {distHtml} 
-                <button>Lets get results</button>
+                <button onClick={props.showResultsButtonClick}>Lets get results</button>
             </div>
         </div>
     )

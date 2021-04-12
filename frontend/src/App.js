@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import CsvFilePath from './csvFilePath';
 import ShowColumnAndDist from "./showColumnsAndDist"
+import ShowTableResult from './ShowTableResult';
 
 class App extends Component {
 
@@ -22,8 +23,9 @@ class App extends Component {
       'invgauss','uniform','gamma','expon', 'lognorm','pearson3','triang'],
       selectedDists: [],
       searchDist:"",      
-      colDistMsg: null
-
+      colDistMsg: null,
+      gotResult: false,
+      tableResult: []
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -71,6 +73,7 @@ class App extends Component {
       this.setState({
             showedCols: [...showedCols],
             [name]: value
+
           }
         )
     }
@@ -92,11 +95,14 @@ class App extends Component {
     if (this.state.csvFilePath.length === 0){
       this.setState({
         msg: "Please enter CSV file name",
-        readCSV: false
+        readCSV: false,
+        gotResult: false
       })
     }else{
       this.setState({
         msg: "Accessing ...",
+        readCSV:false,
+        gotResult: false
       })
       fetch("/readCSV", {
         "method": "POST",
@@ -133,6 +139,51 @@ class App extends Component {
     }
   }
 
+  showResultsButtonClick= () => {
+    if (this.state.selectedDists.length === 0 ||  this.state.selectedCol === ""){
+      this.setState({
+        colDistMsg: "Please select atleast one column and distribution",
+        gotResult: false
+      })
+    }else{
+      this.setState({
+        colDistMsg: "Fetching ...",
+      })
+      fetch("/getResult", {
+        "method": "POST",
+        "headers":{
+            "content_type":"application/json",
+        },
+        "body": JSON.stringify({
+          column: this.state.selectedCol,
+          dists: this.state.selectedDists
+        })
+      })
+    .then(response => response.json())
+    .then(output => {
+        console.log(output)
+      if (output.result){
+
+        this.setState({
+          colDistMsg: null,
+          gotResult: true,
+          tableResult: JSON.parse(output.tableResult)
+        })        
+
+      }else{
+
+        this.setState({
+          msg: "Failed to fetch result. Please retry",
+          gotResult: false
+        })
+
+      }
+      
+    })
+    .catch(e => console.log(e))
+    }
+  }
+
   render(){
     return(
       <div className="container">
@@ -155,9 +206,18 @@ class App extends Component {
           searchCol={this.state.searchCol}
           searchDist={this.state.searchDist}
           handleSearchTextBox={this.handleSearchTextBox}
+          showResultsButtonClick={this.showResultsButtonClick}
           />
           :
           null}
+        
+        {this.state.gotResult?
+          <ShowTableResult 
+            tableResult={ this.state.tableResult}
+          />
+          :
+          null
+          }
       </div>
       
 

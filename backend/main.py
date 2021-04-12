@@ -11,6 +11,8 @@ import re
 
 app = Flask(__name__)
 
+df = None
+
 
 @app.route('/hello', methods=['POST', 'GET'])
 def hello_world():
@@ -30,8 +32,9 @@ def read_csv():
 
     print("Reached Here1")
     try:
-        g.df = pd.read_csv(csvFilePath, engine='python')
-        columns = getColumns(g.df)
+        global df
+        df = pd.read_csv(csvFilePath, engine='python')
+        columns = getColumns(df)
         return {'result': True, 'columns': columns, 'msg': 'Successfull'}
     except Exception as e:
         print(f'Failed to read file: {csvFilePath}')
@@ -62,12 +65,10 @@ def standarise(df, column, pct, pct_lower):
     return y_std, len_y, y
 
 
-def fit_distribution(df, column, pct, pct_lower):
+def fit_distribution(df, column, dist_names, pct, pct_lower):
     # Set up list of candidate distributions to use
     # See https://docs.scipy.org/doc/scipy/reference/stats.html for more
     y_std, size, y_org = standarise(df, column, pct, pct_lower)
-    dist_names = ['weibull_min', 'norm', 'weibull_max', 'beta',
-                  'invgauss', 'uniform', 'gamma', 'expon', 'lognorm', 'pearson3', 'triang']
 
     chi_square_statistics = []
     # 11 bins
@@ -107,7 +108,18 @@ def fit_distribution(df, column, pct, pct_lower):
 
     print('\nDistributions listed by Betterment of fit:')
     print('............................................')
-    print(results)
+    print(results.to_json(orient='records'))
+    return results.to_json(orient='records')
 
 
-#fit_distribution('price', 0.99, 0.01)
+@app.route('/getResult', methods=['POST'])
+def getResults():
+    column = request.json['column']
+    dists = request.json['dists']
+    try:
+        global df
+        results = fit_distribution(df, column, dists, 0.99, 0.01)
+        return {'result': True, 'tableResult': results}
+    except Exception as e:
+        print(f"Exception: {e}")
+        return {'result': False}
