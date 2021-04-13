@@ -17,14 +17,25 @@ In this project, you can provide a CSV file. We will list out the columns and th
 ## Project Screen shots
 
 ### Select CSV 
+=============================================================================
+
 ![alt text](https://github.com/joyabhishek/ClosestDist/blob/main/Images/Capture1.PNG "Select CSV")
 
-### Select a column: : There is a search bar as well
+
+### Select a column: There is a search bar as well
+=============================================================================
+
 ![alt text](https://github.com/joyabhishek/ClosestDist/blob/main/Images/Capture2.PNG "Select a column")
 
+
 ### Select distributions: There is a search bar as well
+=============================================================================
+
 ![alt text](https://github.com/joyabhishek/ClosestDist/blob/main/Images/Capture3.PNG "Select Distributions")
 
+
 ### Display results
+=============================================================================
+
 ![alt text](https://github.com/joyabhishek/ClosestDist/blob/main/Images/Capture4.PNG "Display results")
 
